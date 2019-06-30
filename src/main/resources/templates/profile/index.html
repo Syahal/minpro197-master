@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="x_panel">
+	<div class="x_title">
+		<h2>Profil</h2>
+		<div class="clearfix"></div>
+	</div>
+	<div class="x_content" id="profil-content">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12" id="list-profil">
+				<div class="table-responsive">
+				<div class="col-md-4">
+					<a th:each="item:${listBioatt}"> 
+						<img th:src="${item.filePath}"
+						class="media-avatar pull-left img-circle f" alt="">
+					</a>
+				</div>
+				<a>
+					<button type="button" class="btn btn-primary pull-right">Unduh</button>
+				</a>
+				<table>
+					<tr>
+						<td><h2 class="w" th:text="${pelamar.fullname}"></h2></td>
+					</tr>
+					<tr th:each="item:${listPek}">
+						<td type="hidden" th:if="*{item.id == 1}">
+							<span th:text="${item.lastPosition}"></span>
+						</td>
+					</tr>
+					<tr>
+						<td th:text="${pelamar.dob}"></td>
+					</tr>
+					<tr>
+						<td><span th:if="${pelamar.gender == true}">Cowok</span> <span
+							th:if="${pelamar.gender == false}">Cewek</span></td>
+					</tr>
+					<tr th:each="item:${listPend}">
+						<td type="hidden" th:if="*{item.id == 1}">
+							<span th:text="${item.major}"></span>
+						</td>
+					</tr>
+				</table>
+				<table class="tb2">
+					<tr>
+						<td><h2 class="w">Pendidikan</h2></td>
+					</tr>
+					<tr th:each="item:${listPend}">
+						<td class="col-md-2"><span th:text="${item.entryYear}"></span>
+							- <span th:text="${item.graduationYear}"></span></td>
+						<td class="col-md-4"><span th:text="${item.schoolName}"></span>,
+							<span th:text="${item.country}"></span><br> <span
+							th:text="${item.major}"></span><br> <span
+							th:text="${item.gpa}"></span></td>
+					</tr>
+				</table>
+				<table class="tb1">
+					<tr>
+						<td><h2 class="w">Pengalaman</h2></td>
+					</tr>
+					<tr th:each="item:${listPek}">
+						<td class="col-md-2 w"><span th:text="${item.joinYear}"></span> - <span th:text="${item.resignYear}"></span></td>
+						<td class="col-md-4 w">
+							<span th:text="${item.lastPosition}"></span><br>
+							<span th:text="${item.companyName}"></span><br>
+						</td>
+					</tr>
+				</table>
+				<table class="tb2">
+					<tr>
+						<td><h2 class="w">Keterampilan</h2></td>
+					</tr>
+					<tr th:each="item:${listKeahlian}">
+						<td class="col-md-2">
+							<span th:if="${item.skillLevelId == 1}">tingkat lanjut</span>
+							<span th:if="${item.skillLevelId == 2}">menengah</span>
+							<span th:if="${item.skillLevelId == 3}">pemula</span>
+						</td>
+						<td class="col-md-4">
+						<span th:text="${item.skillName}"></span><br>
+						</td>
+					</tr>
+				</table>
+				<table class="tb1">
+					<tr>
+						<td><h2 class="w">Training</h2></td>
+					</tr>
+					<tr th:each="item:${listPel}">
+						<td class="col-md-2 w"><span th:text="${item.trainingYear}"></span> - <span th:text="${item.trainingYear}"></span></td>
+						<td class="col-md-4 w">
+							<span th:text="${item.trainingName}"></span><br>
+							<span th:text="${item.notes}"></span><br>
+						</td>
+					</tr>
+				</table>
+				<table class="tb2">
+					<tr>
+						<td><h2 class="w">Sertifikasi</h2></td>
+					</tr>
+					<tr th:each="item:${listSer}">
+						<td class="col-md-2">
+							<span th:text="${item.validStartYear}"></span> - <span th:text="${item.untilYear}"></span>
+						</td>
+						<td class="col-md-4">
+							<span th:text="${item.certificateName}"></span><br>
+							<span th:text="${item.notes}"></span>
+						</td>
+					</tr>
+				</table>
+			</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+</html>
