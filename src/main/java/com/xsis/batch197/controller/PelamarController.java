@@ -84,14 +84,5 @@ public class PelamarController {
 		view.addObject("pelamar", pelamar);
 		return view;
 	}
-	
-	// Method untuk menampilkan biodata pelamar
-    @GetMapping(value = "/biodata/{id}")
-    public ModelAndView biodata(@PathVariable("id") Long id) {
-        ModelAndView view = new ModelAndView("pelamar/biodata");
-        XBiodataModel biodata = repoBio.findById(id).orElse(new XBiodataModel());
-        view.addObject("biodata", biodata);
-        return view;
-    }
 
 }

@@ -25,7 +25,7 @@ import com.xsis.batch197.repository.XSkillLevelRepo;
 
 @Controller
 public class KeahlianController extends BaseController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(KeahlianController.class);
 
 	@Autowired
@@ -33,7 +33,7 @@ public class KeahlianController extends BaseController {
 
 	@Autowired
 	private XKeahlianRepo keahlianRepo;
-	
+
 	@Autowired
 	private XSkillLevelRepo skillRepo;
 
@@ -45,7 +45,7 @@ public class KeahlianController extends BaseController {
 		XBiodataModel biodata = this.bioRepo.findById(biodataId).orElse(null);
 		view.addObject("biodata", biodata);
 		// get keahlian
-		List<XKeahlianModel> listKeahlian = this.keahlianRepo.findByBiodataId(biodataId);
+		List<XKeahlianModel> listKeahlian = this.keahlianRepo.findActiveByBiodataId(biodataId);
 		view.addObject("listKeahlian", listKeahlian);
 
 		return view;
@@ -62,22 +62,23 @@ public class KeahlianController extends BaseController {
 		keahlian.setBiodataId(biodataId);
 		// add object keahlian
 		view.addObject("keahlian", keahlian);
-		
+
 		// mengambil data level skill yang sudah ada
 		List<XSkillLevelModel> listSkill = skillRepo.findAll();
-		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa terisi datanya
+		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa
+		// terisi datanya
 		view.addObject("listSkill", listSkill);
-		
+
 		return view;
 	}
-	
+
 	// Method simpan data
-	@PostMapping(value="/keahlian/save")
+	@PostMapping(value = "/keahlian/save")
 	public ModelAndView save(@Valid @ModelAttribute("keahlian") XKeahlianModel keahlian, BindingResult result) {
 		// menampilkan view dari folder keahlian _create.html
 		ModelAndView view = new ModelAndView("keahlian/_create");
-		
-		if(result.hasErrors()) {
+
+		if (result.hasErrors()) {
 			logger.info("Save Keahlian Error!");
 			// add object keahlian beserta errornya ke view
 			view.addObject("keahlian", keahlian);
@@ -92,64 +93,24 @@ public class KeahlianController extends BaseController {
 		}
 		return view;
 	}
-	
+
 	// menampilkan list data keahlian
-	@GetMapping(value="/keahlian/list/{bid}")
+	@GetMapping(value = "/keahlian/list/{bid}")
 	private ModelAndView list(@PathVariable("bid") Long biodataId) {
 		// view keahlian
 		ModelAndView view = new ModelAndView("keahlian/_list");
 		// get biodataId
 		XBiodataModel biodata = this.bioRepo.findById(biodataId).orElse(null);
 		view.addObject("biodata", biodata);
-		
-		//get keahlian
-		List<XKeahlianModel> listKeahlian = this.keahlianRepo.findByBiodataId(biodataId);
+
+		// get keahlian
+		List<XKeahlianModel> listKeahlian = this.keahlianRepo.findActiveByBiodataId(biodataId);
 		view.addObject("listKeahlian", listKeahlian);
 		return view;
 	}
-	
-	// edit keahlian
-	@GetMapping(value="/keahlian/edit/{kid}")
-	private ModelAndView edit(@PathVariable("kid") Long kid) {
-		// view edit
-		ModelAndView view = new ModelAndView("keahlian/_edit");
-		//mengambil data dahulu dari database via repository
-		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(null);
-		view.addObject("keahlian", keahlian);
-		
-		// mengambil data level skill yang sudah ada
-		List<XSkillLevelModel> listSkill = skillRepo.findAll();
-		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa terisi datanya
-		view.addObject("listSkill", listSkill);
-		
-		return view;
-	}
-	
-	// Method simpan data
-		@PostMapping(value="/keahlian/update")
-		public ModelAndView update(@Valid @ModelAttribute("keahlian") XKeahlianModel keahlian, BindingResult result) {
-			// menampilkan view dari folder keahlian _create.html
-			ModelAndView view = new ModelAndView("keahlian/_edit");
-			
-			if(result.hasErrors()) {
-				logger.info("Update Keahlian Error!");
-				// add object keahlian beserta errornya ke view
-				view.addObject("keahlian", keahlian);
-			} else {
-				// set userId
-				keahlian.setCreatedBy(this.getAbuid());
-				keahlian.setCreatedOn(new Date());
-				// simpan ke repo
-				keahlianRepo.save(keahlian);
-				// add object baru tanpa error
-				view.addObject("keahlian", new XKeahlianModel());
-			}
-			return view;
-		}
-	
-	
+
 	// hapus data keahlian
-	@GetMapping(value="/keahlian/hapus/{kid}")
+	@GetMapping(value = "/keahlian/hapus/{kid}")
 	private ModelAndView hapus(@PathVariable("kid") Long kid) {
 		// view keahlian
 		ModelAndView view = new ModelAndView("/keahlian/_hapus");
@@ -158,17 +119,36 @@ public class KeahlianController extends BaseController {
 		view.addObject("keahlian", keahlian);
 		return view;
 	}
-	
-	@PostMapping(value="/keahlian/remove")
+
+	@PostMapping(value = "/keahlian/remove")
 	private ModelAndView remove(@ModelAttribute("keahlian") XKeahlianModel keahlian) {
 		// get keahlian
 		XKeahlianModel item = this.keahlianRepo.findById(keahlian.getId()).orElse(null);
 		keahlian.setIsDelete(1);
 		this.keahlianRepo.save(keahlian);
-		
+
 		// view keahlian
 		ModelAndView view = new ModelAndView("keahlian/_hapus");
 		view.addObject("keahlian", keahlian);
 		return view;
 	}
+
+	// edit keahlian
+	@GetMapping(value = "/keahlian/ubah/{kid}")
+	public ModelAndView edit(@PathVariable("kid") Long kid) {
+		// view edit
+		ModelAndView view = new ModelAndView("keahlian/_create");
+		// mengambil data dahulu dari database via repository
+		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(null);
+		view.addObject("keahlian", keahlian);
+
+		// mengambil data level skill yang sudah ada
+		List<XSkillLevelModel> listSkill = skillRepo.findAll();
+		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa
+		// terisi datanya
+		view.addObject("listSkill", listSkill);
+
+		return view;
+	}
+
 }

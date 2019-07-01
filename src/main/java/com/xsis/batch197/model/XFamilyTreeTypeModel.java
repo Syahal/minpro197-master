@@ -26,6 +26,9 @@ public class XFamilyTreeTypeModel extends BaseModel{
 	@Column(name="name", nullable = false, length = 50)
 	private String name;
 	
+	@NotNull
+	@NotBlank
+	@NotEmpty
 	@Column(name="description", length = 100)
 	private String description;
 	

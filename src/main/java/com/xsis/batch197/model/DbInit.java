@@ -68,7 +68,8 @@ public class DbInit implements CommandLineRunner {
 					encoderPassword.encode("quality123"));
 			XAddressBookModel sys = new XAddressBookModel("sysdev@gmail.com", "sysdev",
 					encoderPassword.encode("sysdev123"));
-			XAddressBookModel user = new XAddressBookModel("user@gmail.com", "user", encoderPassword.encode("user123"));
+			XAddressBookModel user = new XAddressBookModel("user@gmail.com", "user", 
+					encoderPassword.encode("user123"));
 			List<XAddressBookModel> users = Arrays.asList(admin, qc, sys, user);
 
 			this.userRepo.saveAll(users);
@@ -174,7 +175,8 @@ public class DbInit implements CommandLineRunner {
 		
 		// initial identity
 		if(this.identityRepo.findAll().size()==0) {
-			List<XIdentityTypeModel> identityList = new ArrayList<XIdentityTypeModel>();
+			List<XIdentityTypeModel> identityList = new ArrayList<>();
+			
 			identityList.add(new XIdentityTypeModel("KTP", "Kartu Tanda Penduduk", userId));
 			identityList.add(new XIdentityTypeModel("SIM", "Surat Ijin Mengemudi", userId));
 			identityList.add(new XIdentityTypeModel("PASSPOR", "Paspor", userId));
@@ -184,27 +186,36 @@ public class DbInit implements CommandLineRunner {
 		
 		// initial family tree type repo
 		if(this.familytreetypeRepo.findAll().size() == 0) {
-			List<XFamilyTreeTypeModel> familyTreeTypeList = new ArrayList<XFamilyTreeTypeModel>();
+			List<XFamilyTreeTypeModel> familyTreeTypeList = new ArrayList<>();
+			
 			familyTreeTypeList.add(new XFamilyTreeTypeModel("KELUARGA INTI", " - ", userId));
 			familyTreeTypeList.add(new XFamilyTreeTypeModel("KELUARGA BESAR", " - ", userId));
+			
+			this.familytreetypeRepo.saveAll(familyTreeTypeList);
 		}
 		
 		// initial family relation repo
 		if(this.familyrelationRepo.findAll().size() == 0) {
-			List<XFamilyRelationModel> familyRelationList = new ArrayList<XFamilyRelationModel>();
+			List<XFamilyRelationModel> familyRelationList = new ArrayList<>();
+			
 			familyRelationList.add(new XFamilyRelationModel("AYAH", " - ", userId));
 			familyRelationList.add(new XFamilyRelationModel("IBU", " - ", userId));
 			familyRelationList.add(new XFamilyRelationModel("KAKAK", " - ", userId));
 			familyRelationList.add(new XFamilyRelationModel("ADIK", " - ", userId));
 			familyRelationList.add(new XFamilyRelationModel("ANAK", " - ", userId));
+			
+			this.familyrelationRepo.saveAll(familyRelationList);
 		}
 		
 		// initial skill Level repo
 		if(this.skillLevelRepo.findAll().size() == 0) {
-			List<XSkillLevelModel> skillLevelList = new ArrayList<XSkillLevelModel>();
+			List<XSkillLevelModel> skillLevelList = new ArrayList<>();
+			
 			skillLevelList.add(new XSkillLevelModel("Pemula", " - ", userId));
 			skillLevelList.add(new XSkillLevelModel("Menengah", " - ", userId));
-			skillLevelList.add(new XSkillLevelModel("Lanutan", " - ", userId));
+			skillLevelList.add(new XSkillLevelModel("Lanjutan", " - ", userId));
+			
+			this.skillLevelRepo.saveAll(skillLevelList);
 		}
 	}
 

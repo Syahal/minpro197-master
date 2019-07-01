@@ -1,10 +1,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
+
 <form id="form-keahlian" th:action="@{~/keahlian/save}" th:object="${keahlian}" method="POST">
 	<div class="modal-header">
 		<button type="button" class="close btn-xs" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
 		<h4 class="modal-title">Tambah Keahlian</h4>
 		<!-- Biodata ID, dengan HIDDEN -->
 		<input type="hidden" th:field="*{biodataId}" />
+		<!-- id, dengan HIDDEN -->
+		<input type="hidden" th:field="*{id}" />
 	</div>
 	<div class="modal-body">
 		<div class="row">
@@ -19,6 +22,7 @@
 				<div th:class="${#fields.hasErrors('skillLevelId')} ? 'form-group has-error':'form-group'">
 					<label>Level Keahlian</label>
 					<select th:field="*{skillLevelId}" class="form-control">
+						<option value="">= Pilih Level =</option>
 						<option th:each="skill : ${listSkill}" th:value="${skill.id}" th:text="${skill.name}"></option>
 					</select>
 					<span th:if="${#fields.hasErrors('skillLevelId')}" class="help-block" th:errors="*{skillLevelId}">pesan error</span>

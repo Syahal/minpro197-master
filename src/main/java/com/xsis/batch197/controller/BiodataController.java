@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.batch197.model.XBiodataModel;
+import com.xsis.batch197.model.XKeahlianModel;
 import com.xsis.batch197.repository.XBiodataRepo;
 
 @Controller
@@ -22,9 +23,8 @@ public class BiodataController extends BaseController {
 		// view biodata
 		ModelAndView view = new ModelAndView("biodata/index");
 		// get biodata Id
-		XBiodataModel biodata = this.bioRepo.findById(biodataId).orElse(null);
+		XBiodataModel biodata = bioRepo.findById(biodataId).orElse(null);
 		view.addObject("biodata", biodata);
-
 		return view;
 	}
 

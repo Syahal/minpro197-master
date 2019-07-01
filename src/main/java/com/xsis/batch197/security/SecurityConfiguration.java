@@ -35,13 +35,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/","/select-role").permitAll()
+				.antMatchers("/lupa-password").permitAll()
+				.antMatchers("/home/index").hasAnyAuthority("ROLE_ADMINISTRATOR", "ROLE_BOOTCAMP_QC", "ROLE_INTERNAL_SYSDEV")
+				.anyRequest().authenticated()
 				.and()
-				.formLogin().loginProcessingUrl("/login")
-				.usernameParameter("username").passwordParameter("password").loginPage("/login").permitAll()
-				.successHandler(authSuccessHandler).failureHandler(authFailureHandler).defaultSuccessUrl("/select-role")
-				.and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+				
+				
+				.csrf().disable().formLogin()
+				.loginPage("/login").permitAll()
+				.failureUrl("/login?error=true")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.successHandler(authSuccessHandler)
+				.failureHandler(authFailureHandler).defaultSuccessUrl("/select-role")
 				.and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).maximumSessions(2)
+				
+				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+				.logoutSuccessUrl("/login")
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).maximumSessions(2)
 				.expiredUrl("/session-expired");
 		/*.and().rememberMe().rememberMeParameter("remember-me").tokenValiditySeconds(2592000)
 				.key("RahasiaDong!!").and().exceptionHandling().accessDeniedPage("/access-denied")*/
