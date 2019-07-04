@@ -116,7 +116,7 @@ public class KeahlianController extends BaseController {
 		// buat object view
 		ModelAndView view = new ModelAndView("keahlian/_hapus");
 		// mengambil data keahlian dari database via repository
-		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(new XKeahlianModel());
+		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(null);
 		view.addObject("keahlian", keahlian);
 		return view;
 	}

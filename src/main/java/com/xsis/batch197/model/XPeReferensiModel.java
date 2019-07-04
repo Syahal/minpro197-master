@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name="x_pe_referensi")
@@ -27,15 +28,19 @@ public class XPeReferensiModel extends BaseModel {
 	@JoinColumn(name="biodata_id", foreignKey=@ForeignKey(name="fk_pereff_bio_id"), insertable=false, updatable=false)
 	private XBiodataModel biodata;
 	
+	@NotEmpty(message = "Nama Tidak boleh kosong")
 	@Column(name = "name", nullable = true, length = 100)
 	private String name;
 	
+	@NotEmpty(message = "Posisi Tidak boleh kosong")
 	@Column(name = "position", nullable = true, length = 100)
 	private String position;
 	
+	@NotEmpty(message = "Alamat Tidak boleh kosong")
 	@Column(name = "address_phone", nullable = true, length = 1000)
 	private String addressPhone;
 	
+	@NotEmpty(message = "Relasi Tidak boleh kosong")
 	@Column(name = "relation", nullable = true, length = 100)
 	private String relation;
 	

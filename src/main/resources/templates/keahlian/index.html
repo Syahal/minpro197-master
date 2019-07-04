@@ -52,6 +52,12 @@
 	</div>
 </div>
 
+<div class="modal fade" id="hapus-modal">
+	<div class="modal-dialog modal-sm modal-danger">
+		<div class="modal-content" id="hapus-modal-content"></div>
+	</div>
+</div>
+
 <script type="text/javascript">
 
 	//saat button add di click
@@ -135,20 +141,20 @@
 		});
 	}
 	
+	// event hapus
 	$('#list-keahlian').on('click', '.btn-hapus', function(event) {
 		// cegah link redirect
 		event.preventDefault();
 
 		var url = $(this).attr('href');
 		// buat ajax untuk create
-		// lihat pelatihan controller @GetMapping(value="/keahlian/hapus/{sid}")
+		// lihat pelatihan controller @GetMapping(value="/keahlian/hapus/{kid}")
 		$.ajax({
 			url : url,
 			type : 'GET',
 			dataType : 'html',
 			success : function(data) {
-				$("#hapus-modal").find("#hapus-modal-content").html(data);
-				// menampilkan modal dengan id => hapus-modal
+				$("#hapus-modal-content").html(data);
 				$("#hapus-modal").modal('show');
 			}
 		});
@@ -174,10 +180,10 @@
 	});
 	
 	$("#hapus-modal").on('submit', '#form-keahlian', function() {
-		// dapatkan url dari attribute action dari form #form-keahlian
+		// dapatkan url dari attribute action dari form => #form-keahlian
 		// lihat di file _create.html
 		var url = $(this).attr('action');
-		// datakan data form dengan method serialize
+		// mendatakan data form dengan method serialize
 		var data = $(this).serialize();
 
 		$.ajax({
@@ -187,6 +193,7 @@
 			dataType : 'html',
 			success : function(data) {
 				$("#hapus-modal").modal('hide');
+				loadData();
 			}
 		});
 		// cegah supaya form tidak redirect
