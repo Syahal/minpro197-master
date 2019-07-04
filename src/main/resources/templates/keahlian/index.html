@@ -135,6 +135,25 @@
 		});
 	}
 	
+	$('#list-keahlian').on('click', '.btn-hapus', function(event) {
+		// cegah link redirect
+		event.preventDefault();
+
+		var url = $(this).attr('href');
+		// buat ajax untuk create
+		// lihat pelatihan controller @GetMapping(value="/keahlian/hapus/{sid}")
+		$.ajax({
+			url : url,
+			type : 'GET',
+			dataType : 'html',
+			success : function(data) {
+				$("#hapus-modal").find("#hapus-modal-content").html(data);
+				// menampilkan modal dengan id => hapus-modal
+				$("#hapus-modal").modal('show');
+			}
+		});
+	})
+	
 	// edit keahlian
 	.on('click','.btn-ubah', function(event){
 		// cegah link redirect
@@ -152,6 +171,30 @@
 				$("#form-modal").modal('show');
 			}
 		});
+	});
+	
+	$("#hapus-modal").on('submit', '#form-keahlian', function() {
+		// dapatkan url dari attribute action dari form #form-keahlian
+		// lihat di file _create.html
+		var url = $(this).attr('action');
+		// datakan data form dengan method serialize
+		var data = $(this).serialize();
+
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : data,
+			dataType : 'html',
+			success : function(data) {
+				$("#hapus-modal").modal('hide');
+			}
+		});
+		// cegah supaya form tidak redirect
+		return false;
+	})
+
+	.on('click', '#btn-close-hapus', function() {
+		$("#hapus-modal").modal('hide');
 	});
 	
 </script>
