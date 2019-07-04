@@ -56,7 +56,8 @@ public class KeahlianController extends BaseController {
 	public ModelAndView create(@PathVariable("bid") Long biodataId) {
 		// menampilkan view dari folder keahlian file _create.html
 		ModelAndView view = new ModelAndView("keahlian/_create");
-		// membuat object keahlian model
+		// membuat object keahlian yang akan dikirim ke view
+		// object "keahlian" adalah new object dari XKeahlianModel
 		XKeahlianModel keahlian = new XKeahlianModel();
 		// set biodata id nya
 		keahlian.setBiodataId(biodataId);
@@ -112,10 +113,10 @@ public class KeahlianController extends BaseController {
 	// hapus data keahlian
 	@GetMapping(value = "/keahlian/hapus/{kid}")
 	private ModelAndView hapus(@PathVariable("kid") Long kid) {
-		// view keahlian
-		ModelAndView view = new ModelAndView("/keahlian/_hapus");
-		// get keahlian
-		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(null);
+		// buat object view
+		ModelAndView view = new ModelAndView("keahlian/_hapus");
+		// mengambil data keahlian dari database via repository
+		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(new XKeahlianModel());
 		view.addObject("keahlian", keahlian);
 		return view;
 	}
@@ -124,12 +125,12 @@ public class KeahlianController extends BaseController {
 	private ModelAndView remove(@ModelAttribute("keahlian") XKeahlianModel keahlian) {
 		// get keahlian
 		XKeahlianModel item = this.keahlianRepo.findById(keahlian.getId()).orElse(null);
-		keahlian.setIsDelete(1);
-		this.keahlianRepo.save(keahlian);
+		item.setIsDelete(1);
+		this.keahlianRepo.save(item);
 
 		// view keahlian
 		ModelAndView view = new ModelAndView("keahlian/_hapus");
-		view.addObject("keahlian", keahlian);
+		view.addObject("keahlian", item);
 		return view;
 	}
 
@@ -142,8 +143,8 @@ public class KeahlianController extends BaseController {
 		XKeahlianModel keahlian = this.keahlianRepo.findById(kid).orElse(null);
 		view.addObject("keahlian", keahlian);
 
-		// mengambil data level skill yang sudah ada
-		List<XSkillLevelModel> listSkill = skillRepo.findAll();
+		// mengambil data level skill yang sudah dipilih
+		List<XSkillLevelModel> listSkill = this.skillRepo.findAll();
 		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa
 		// terisi datanya
 		view.addObject("listSkill", listSkill);

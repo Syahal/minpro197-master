@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -26,67 +27,73 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class XKeluargaModel extends BaseModel {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.TABLE, generator="x_keluarga_idx")
-	@TableGenerator(name="x_keluarga_idx", table="x_index", pkColumnName="index_id", valueColumnName="index_value", initialValue=0, allocationSize=1)
-	@Column(name="id", length=11)
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "x_keluarga_idx")
+	@TableGenerator(name = "x_keluarga_idx", table = "x_index", pkColumnName = "index_id", valueColumnName = "index_value", initialValue = 0, allocationSize = 1)
+	@Column(name = "id", length = 11)
 	private Long id;
 
-	@Column(name="biodata_id", nullable=false, length=11)
+	@Column(name = "biodata_id", nullable = false, length = 11)
 	private Long biodataId;
-	
-	@Column(name="family_tree_type_id", nullable=true, length=11)
+
+	@NotNull(message = "Susunan Keluarga Wajib dipilih")
+	@Column(name = "family_tree_type_id", nullable = true, length = 11)
 	private Long familyTreeTypeId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="family_tree_type_id", foreignKey=@ForeignKey(name="fk_kel_familytree_id"), insertable=false,updatable=false)
+	@JoinColumn(name = "family_tree_type_id", foreignKey = @ForeignKey(name = "fk_kel_familytree_id"), insertable = false, updatable = false)
 	private XFamilyTreeTypeModel familyTree;
-	
-	@Column(name="family_relation_id", nullable=true, length=11)
+
+	@NotNull(message = "Hubungan Keluarga Wajib dipilih")
+	@Column(name = "family_relation_id", nullable = true, length = 11)
 	private Long familyRelationId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="family_relation_id", foreignKey=@ForeignKey(name="fk_kel_familyrelation_id"), insertable=false,updatable=false)
+	@JoinColumn(name = "family_relation_id", foreignKey = @ForeignKey(name = "fk_kel_familyrelation_id"), insertable = false, updatable = false)
 	private XFamilyRelationModel familyRelation;
-	
-	@Column(name="name", nullable=true, length=100)
+
+	@NotEmpty(message = "Nama Tidak boleh kosong")
+	@Column(name = "name", nullable = true, length = 100)
 	private String name;
-	
-	@NotNull
-	@NotBlank
-	@NotEmpty
-	@Column(name="gender", nullable=false, length=1)
-	private Integer gender;
-	
-	@Column(name="dob", nullable=true)
+
+	@Column(name = "gender", nullable = true)
+	private Boolean gender;
+
+	@Column(name = "dob", nullable = true)
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dob;
-	
-	@Column(name="education_level_id", nullable=true, length=11)
+
+	@NotNull(message = "Pendidikan Wajib dipilih")
+	@Column(name = "education_level_id", nullable = true, length = 11)
 	private Long educationLevelId;
-	
+
 	@ManyToOne
-	@JoinColumn(name="education_level_id", foreignKey=@ForeignKey(name="fk_kel_edulev_id"), insertable=false,updatable=false)
+	@JoinColumn(name = "education_level_id", foreignKey = @ForeignKey(name = "fk_kel_edulev_id"), insertable = false, updatable = false)
 	private XEducationLevelModel educationLevel;
-	
-	@Column(name="job", nullable=true, length=100)
+
+	@NotEmpty(message = "Pekerjaan Tidak boleh kosong")
+	@Column(name = "job", nullable = true, length = 100)
 	private String job;
-	
-	@Column(name="notes", nullable=true, length=1000)
+
+	@NotEmpty(message = "Catatan Tidak boleh kosong")
+	@Column(name = "notes", nullable = true, length = 1000)
 	private String notes;
-	
+
 	@ManyToOne
-	@JoinColumn(name="biodata_id", foreignKey=@ForeignKey(name="fk_kel_bio_id"), insertable=false,updatable=false)
+	@JoinColumn(name = "biodata_id", foreignKey = @ForeignKey(name = "fk_kel_bio_id"), insertable = false, updatable = false)
 	private XBiodataModel biodata;
+	
+	@Transient
+	private String genderName;
 
 	public XKeluargaModel() {
 		super();
 	}
-	
+
 	public XKeluargaModel(Long userId) {
 		super(userId);
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -159,11 +166,11 @@ public class XKeluargaModel extends BaseModel {
 		this.notes = notes;
 	}
 
-	public Integer getGender() {
+	public Boolean getGender() {
 		return gender;
 	}
 
-	public void setGender(Integer gender) {
+	public void setGender(Boolean gender) {
 		this.gender = gender;
 	}
 

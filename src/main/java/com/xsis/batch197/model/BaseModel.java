@@ -54,6 +54,7 @@ public class BaseModel {
 		this.createdOn = date;
 		this.modifiedOn = date;
 		this.deletedOn = date;
+		this.modifiedBy = userId;
 		this.createdBy=userId;
 	}
 

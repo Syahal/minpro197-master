@@ -1,7 +1,7 @@
-<html xmlns:th="http://www.thymeleaf.org">
 <tr th:each="item :${listKeluarga}">
 	<td th:text="${item.familyRelation.name}"></td>
 	<td th:text="${item.name}"></td>
+	<td th:text="${item.gender}"></td>
 	<td th:text="${item.dob}"></td>
 	<td th:text="${item.educationLevel.name}"></td>
 	<td th:text="${item.job}"></td>
@@ -13,7 +13,7 @@
 				More <span class="caret"></span>
 			</button>
 			<ul role="menu" class="dropdown-menu">
-				<li><a th:href="@{/keluarga/edit/{kid}(kid=${item.id})}"
+				<li><a th:href="@{/keluarga/ubah/{kid}(kid=${item.id})}"
 					class="btn-ubah">Ubah</a></li>
 				<li><a th:href="@{/keluarga/hapus/{kid}(kid=${item.id})}"
 					class="btn-hapus">Hapus</a></li>
@@ -21,4 +21,3 @@
 		</div>
 	</td>
 </tr>
-</html>

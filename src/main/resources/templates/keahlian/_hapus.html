@@ -1,12 +1,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<form id="form-keahlian" th:action="@{~/keahlian/remove}" th:object="${keahlian}" method="POST">
+<form id="form-keahlian" th:action="@{~/keahlian/remove}"
+	th:object="${keahlian}" method="POST">
 	<div class="modal-header">
-		<button type="button" class="close btn-xs" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-		<h4 class="modal-title">Hapus Keahlian ? </h4>
+		<button type="button" class="close btn-xs" data-dismiss="modal">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h4 class="modal-title">Hapus Keahlian ?</h4>
 
 		<!-- Biodata ID, dengan HIDDEN -->
-		<input type="hidden" th:field="*{id}" />
-		<input type="hidden" th:field="*{biodataId}" />
+		<input type="hidden" th:field="*{id}" /> <input type="hidden"
+			th:field="*{biodataId}" />
 	</div>
 	<div class="modal-body">
 		<div class="row">
@@ -22,9 +25,62 @@
 	</div>
 	<div class="modal-footer">
 		<div class="btn-group">
-       		<button type="button" class="btn btn-warning" id="btn-close-hapus">Tidak</button>
-       		<button type="submit" class="btn btn-danger">Ya</button>
-       	</div>
-     </div>
+			<button type="button" class="btn btn-warning" id="btn-close-hapus">Tidak</button>
+			<button type="submit" class="btn btn-danger">Ya</button>
+		</div>
+	</div>
 </form>
-</html> 
+
+<div class="modal fade" id="hapus-modal">
+	<div class="modal-dialog modal-sm modal-danger">
+		<div class="modal-content" id="hapus-modal-content"></div>
+	</div>
+</div>
+
+<script>
+	//event hapus
+	$('#list-keahlian').on('click', '.btn-hapus', function(event) {
+		// cegah link redirect
+		event.preventDefault();
+
+		var url = $(this).attr('href');
+		// buat ajax untuk create
+		// lihat pelatihan controller @GetMapping(value="/keahlian/hapus/{sid}")
+		$.ajax({
+			url : url,
+			type : 'GET',
+			dataType : 'html',
+			success : function(data) {
+				$("#hapus-modal").find("#hapus-modal-content").html(data);
+				// menampilkan modal dengan id => hapus-modal
+				$("#hapus-modal").modal('show');
+			}
+		});
+	})
+
+	$("#hapus-modal").on('submit', '#form-keahlian', function() {
+		// dapatkan url dari attribute action dari form #form-keahlian
+		// lihat di file _create.html
+		var url = $(this).attr('action');
+		// datakan data form dengan method serialize
+		var data = $(this).serialize();
+
+		$.ajax({
+			url : url,
+			type : 'POST',
+			data : data,
+			dataType : 'html',
+			success : function(data) {
+				$("#hapus-modal").modal('hide');
+			}
+		});
+		// cegah supaya form tidak redirect
+		return false;
+	})
+
+	.on('click', '#btn-close-hapus', function() {
+		$("#hapus-modal").modal('hide');
+	});
+</script>
+
+</html>

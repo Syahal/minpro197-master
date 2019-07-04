@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="x_keahlian")
@@ -24,9 +27,11 @@ public class XKeahlianModel extends BaseModel{
 	@Column(name="biodata_id", nullable=false, length=11)
 	private Long biodataId;
 	
+	@NotEmpty(message="Nama Tidak boleh kosong")
 	@Column(name="skill_name", nullable=true, length=100)
 	private String skillName;
 	
+	@NotNull(message="Skill Level Wajib dipilih")
 	@Column(name="skill_level_id", nullable=true, length=11)
 	private Long skillLevelId;
 	
@@ -34,6 +39,7 @@ public class XKeahlianModel extends BaseModel{
 	@JoinColumn(name="skill_level_id", foreignKey=@ForeignKey(name="fk_keahlian_sklev_id"), insertable=false, updatable=false)
 	private XSkillLevelModel skillLevel;
 	
+	@NotEmpty(message="Catatan Tidak boleh kosong")
 	@Column(name="notes", nullable=true, length=1000)
 	private String notes;
 	

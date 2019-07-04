@@ -26,6 +26,9 @@ public class XEducationLevelModel extends BaseModel {
 	@Column(name="name", nullable = false, length = 50)
 	private String name;
 	
+	@NotNull
+	@NotBlank
+	@NotEmpty
 	@Column(name="description", length = 100)
 	private String description;
 	
@@ -39,10 +42,17 @@ public class XEducationLevelModel extends BaseModel {
 		this.description=desc;
 	}
 	
+	public XEducationLevelModel(String name, String desc, Long userId) {
+		super(userId);
+		this.name=name;
+		this.description=desc;
+	}
+	
 	public XEducationLevelModel(Long userId) {
 		super(userId);
 	}
 
+	// Start Getter, Setter
 	public Long getId() {
 		return id;
 	}

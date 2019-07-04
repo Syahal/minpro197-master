@@ -15,7 +15,7 @@
 				<div th:class="${#fields.hasErrors('skillName')} ? 'form-group has-error':'form-group'">
 					<label>Nama Keahlian</label>
 					<input type="text" th:field="*{skillName}" class="form-control"/>
-					<span th:if="${#fields.hasErrors('skillName')}" class="help-block" th:errors="*{skillName}">pesan error</span>
+					<span th:if="${#fields.hasErrors('skillName')}" class="help-block" th:errors="*{skillName}"></span>
 				</div>
 			</div>			
 			<div class="col-md-6 col-sm-6 col-xs-12">
@@ -25,7 +25,7 @@
 						<option value="">= Pilih Level =</option>
 						<option th:each="skill : ${listSkill}" th:value="${skill.id}" th:text="${skill.name}"></option>
 					</select>
-					<span th:if="${#fields.hasErrors('skillLevelId')}" class="help-block" th:errors="*{skillLevelId}">pesan error</span>
+					<span th:if="${#fields.hasErrors('skillLevelId')}" class="help-block" th:errors="*{skillLevelId}"></span>
 				</div>
 			</div>
 		</div>
@@ -41,7 +41,7 @@
 	</div>
 	<div class="modal-footer">
 		<div class="btn-group">
-       		<button type="button" class="btn btn-warning" id="btn-close-form">Batal</button>
+       		<button type="button" class="btn btn-warning"  data-dismiss="modal">Batal</button>
        		<button type="submit" class="btn btn-primary">Simpan</button>
        	</div>
      </div>

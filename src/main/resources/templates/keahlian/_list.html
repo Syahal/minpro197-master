@@ -1,8 +1,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
-<tr th:each="item : ${listKeahlian}">
+<tr th:each="item :${listKeahlian}">
 	<td th:text="${item.skillName}"></td>
 	<td th:text="${item.skillLevel.name}"></td>
-	<td>
+	<td class="col-md-1">
 		<div class="btn-group">
 			<button data-toggle="dropdown"
 				class="btn btn-primary dropdown-toggle btn-sm" type="button"

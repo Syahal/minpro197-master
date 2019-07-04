@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.xsis.batch197.repository.XAddressBookRepo;
 import com.xsis.batch197.repository.XCompanyRepo;
+import com.xsis.batch197.repository.XEducationLevelRepo;
 import com.xsis.batch197.repository.XFamilyRelationRepo;
 import com.xsis.batch197.repository.XFamilyTreeTypeRepo;
 import com.xsis.batch197.repository.XIdentityTypeRepo;
@@ -57,6 +58,9 @@ public class DbInit implements CommandLineRunner {
 	
 	@Autowired
 	private XSkillLevelRepo skillLevelRepo;
+	
+	@Autowired
+	private XEducationLevelRepo pendRepo;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -68,9 +72,9 @@ public class DbInit implements CommandLineRunner {
 					encoderPassword.encode("quality123"));
 			XAddressBookModel sys = new XAddressBookModel("sysdev@gmail.com", "sysdev",
 					encoderPassword.encode("sysdev123"));
-			XAddressBookModel user = new XAddressBookModel("user@gmail.com", "user", 
-					encoderPassword.encode("user123"));
-			List<XAddressBookModel> users = Arrays.asList(admin, qc, sys, user);
+			XAddressBookModel pelamar = new XAddressBookModel("achmadsyahal24@gmail.com", "syahal24", 
+					encoderPassword.encode("agustus24"));
+			List<XAddressBookModel> users = Arrays.asList(admin, qc, sys, pelamar);
 
 			this.userRepo.saveAll(users);
 		}
@@ -109,6 +113,7 @@ public class DbInit implements CommandLineRunner {
 			listMenu.add(new XMenuModel("Hasil Test", "", 15, 1, "pelamar/hasil-test", "BIODATA", pelamar, userId));
 			this.menuRepo.saveAll(listMenu);
 		}
+		
 		// initial marital status
 		if (this.maritalRepo.findAll().size() == 0) {
 			List<XMaritalStatusModel> listMarital = new ArrayList<XMaritalStatusModel>();
@@ -136,8 +141,9 @@ public class DbInit implements CommandLineRunner {
 			XRoleModel admin = new XRoleModel("ROLE_ADMINISTRATOR", "Role Administrator", userId);
 			XRoleModel qc = new XRoleModel("ROLE_BOOTCAMP_QC", "Role Bootcamp QC", userId);
 			XRoleModel sys = new XRoleModel("ROLE_INTERNAL_SYSDEV", "Role Internal Sysdev", userId);
+			XRoleModel pelamar = new XRoleModel("ROLE_PELAMAR", "Role Pelamar", userId);
 
-			List<XRoleModel> listRole = Arrays.asList(admin, qc, sys);
+			List<XRoleModel> listRole = Arrays.asList(admin, qc, sys, pelamar);
 
 			this.roleRepo.saveAll(listRole);
 		}
@@ -156,6 +162,10 @@ public class DbInit implements CommandLineRunner {
 			Long userId3 = this.userRepo.findByAbuid("sysdev").getId();
 			Long roleId3 = this.roleRepo.findByCode("ROLE_INTERNAL_SYSDEV").getId();
 			listUserRole.add(new XUserRoleModel(userId3, roleId3, userId));
+			
+			Long userId4 = this.userRepo.findByAbuid("syahal24").getId();
+			Long roleId4 = this.roleRepo.findByCode("ROLE_PELAMAR").getId();
+			listUserRole.add(new XUserRoleModel(userId4, roleId4, userId));
 
 			this.userRoleRepo.saveAll(listUserRole);
 		}
@@ -188,8 +198,9 @@ public class DbInit implements CommandLineRunner {
 		if(this.familytreetypeRepo.findAll().size() == 0) {
 			List<XFamilyTreeTypeModel> familyTreeTypeList = new ArrayList<>();
 			
-			familyTreeTypeList.add(new XFamilyTreeTypeModel("KELUARGA INTI", " - ", userId));
-			familyTreeTypeList.add(new XFamilyTreeTypeModel("KELUARGA BESAR", " - ", userId));
+			familyTreeTypeList.add(new XFamilyTreeTypeModel("AYAH", " Ayahku ", userId));
+			familyTreeTypeList.add(new XFamilyTreeTypeModel("IBU", " Ibuku ", userId));
+			familyTreeTypeList.add(new XFamilyTreeTypeModel("ANAK", " Anakku ", userId));
 			
 			this.familytreetypeRepo.saveAll(familyTreeTypeList);
 		}
@@ -198,11 +209,10 @@ public class DbInit implements CommandLineRunner {
 		if(this.familyrelationRepo.findAll().size() == 0) {
 			List<XFamilyRelationModel> familyRelationList = new ArrayList<>();
 			
-			familyRelationList.add(new XFamilyRelationModel("AYAH", " - ", userId));
-			familyRelationList.add(new XFamilyRelationModel("IBU", " - ", userId));
-			familyRelationList.add(new XFamilyRelationModel("KAKAK", " - ", userId));
-			familyRelationList.add(new XFamilyRelationModel("ADIK", " - ", userId));
-			familyRelationList.add(new XFamilyRelationModel("ANAK", " - ", userId));
+			familyRelationList.add(new XFamilyRelationModel("SAUDARA", " Saudaraku ", userId));
+			familyRelationList.add(new XFamilyRelationModel("ORANG TUA", " Orang tuaku ", userId));
+			familyRelationList.add(new XFamilyRelationModel("KAKEK", " Kakekku ", userId));
+			familyRelationList.add(new XFamilyRelationModel("NENEK", " Nenekku ", userId));
 			
 			this.familyrelationRepo.saveAll(familyRelationList);
 		}
@@ -217,6 +227,22 @@ public class DbInit implements CommandLineRunner {
 			
 			this.skillLevelRepo.saveAll(skillLevelList);
 		}
+		
+		// initial pendidikan repo
+		if(this.pendRepo.findAll().size() == 0) {
+			List<XEducationLevelModel> pendList = new ArrayList<>();
+			
+			pendList.add(new XEducationLevelModel("S3", " - ", userId));
+			pendList.add(new XEducationLevelModel("S2", " - ", userId));
+			pendList.add(new XEducationLevelModel("S1", " - ", userId));
+			pendList.add(new XEducationLevelModel("D3", " - ", userId));
+			pendList.add(new XEducationLevelModel("SMA/SMK/MA", " - ", userId));
+			pendList.add(new XEducationLevelModel("SMP/MTS", " - ", userId));
+			pendList.add(new XEducationLevelModel("SD/MI", " - ", userId));
+			
+			this.pendRepo.saveAll(pendList);
+		}
+		
 	}
 
 }
