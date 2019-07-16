@@ -51,6 +51,9 @@ public class XAddressBookModel extends BaseModel implements Serializable {
 	@NotEmpty
 	@Column(name = "abpwd", length = 225, nullable = false)
 	private String abpwd;
+	
+	@Column(name = "fp_counter", length = 1)
+	private Integer fpCounter;
 
 	@ManyToMany(fetch=FetchType.EAGER)
 	@JoinTable(name = "x_user_role", joinColumns = @JoinColumn(name = "addrbook_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_addr_role_id")), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_role_addr_id")), foreignKey = @ForeignKey(name = "fk_addr_role_id"), inverseForeignKey = @ForeignKey(name = "fk_role_addr_id"))
@@ -69,6 +72,7 @@ public class XAddressBookModel extends BaseModel implements Serializable {
 		this.abuid = username;
 		this.abpwd = password;
 		this.isLocked = 0;
+		this.fpCounter=0;
 		this.setIsDelete(0);
 	}
 
@@ -130,5 +134,13 @@ public class XAddressBookModel extends BaseModel implements Serializable {
 
 	public void setBiodata(XBiodataModel biodata) {
 		this.biodata = biodata;
+	}
+
+	public Integer getFpCounter() {
+		return fpCounter;
+	}
+
+	public void setFpCounter(Integer fpCounter) {
+		this.fpCounter = fpCounter;
 	}
 }

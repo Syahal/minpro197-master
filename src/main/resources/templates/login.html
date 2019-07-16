@@ -37,6 +37,19 @@
 	height: 34px;
 }
 </style>
+
+<!-- jQuery -->
+    <script th:src="@{~/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{~/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- NProgress -->
+    <script th:src="@{~/nprogress/nprogress.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{~/iCheck/icheck.min.js}"></script>
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{~/build/js/custom.min.js}"></script>
+    <script layout:fragment="script-js" type="text/javascript"></script>
+    
 </head>
 
 <body>
@@ -73,64 +86,61 @@
 		</form>
 		<a href="/lupa-password" id="forgot">Lupa Password</a>
 	</div>
-	<!-- modal mulai -->
-	<div id="modal-forgot" class="modal fade">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content"></div>
-		</div>
-	</div>
-	<!-- modal selesai -->
-	<script>
 	
-	 function lockUser(username){
+	<script type="text/javascript" data-layout-fragment="script-js">
+		// untuk ajax lock user
+	    function lockUser(username){
 	    	$.ajax({
-	    		url:'/api/user/'+username,
-	    		type:'POST',
-	    		dataType:'JSON',
+	    		url:'/api/user/fp-count',
+	    		type:'post',
+	    		data:{"username": username},
 	    		success:function(data){
-	    			alert("User Berhasil di LOCK");
+	    			if(data.fpCounter >= 3){
+	    				alert("User Berhasil di LOCK");
+	    			} else {
+	    				alert('Kesempatan login anda sisa : '+ (3 - data.fpCounter));
+	    			}
 	    		}
 	    	});
 	    }
-	    
-	    $("#form-login").submit(function(){
+		$("#form-login").submit(function(){
 	    	$.ajax({
 	    		url:$(this).attr('action'),
 	    		type:'POST',
 	    		data:$(this).serialize(),
-	    	})
+	    		statusCode:{
+	    			401:function(){
+	    				//alert('Test Tist');
+	    				var username = $("#username").val();
+	    	    		var count = $("#txt-count").val();
+	    	    		lockUser(username);
+	    			},
+	    		},
+	    		success: function(){
+	    			window.location.href = "/select-role";
+	    		}
+	    	});
+	    	/*
 	    	.done(function(data, textStatus, jqXHR) {
 	    		alert('success');
-	    	    window.location.href = "http://localhost:8087/";
+	    	    window.location.href = "http://localhost:8085/";
 	    	}).fail(function(jqXHR, textStatus, errorThrown) {
-	    		alert('Booh! Wrong credentials, try again!');
+	    		alert('Booh! Wrong credentials, try again!'+ errorThrown.status);
 	    		
 	    		var username = $("#username").val();
 	    		var count = $("#txt-count").val();
 	        	if(count==3){
 	        		alert("Maaf Bro! User kamu aku lock ya");
 	        		// panggil method ini diatas
-	        		lockUser(username);
+	        		///lockUser(username);
 	        	}else {
 	        		count++;
 	        		$("#txt-count").val(count);
 	        	}
-	        });    	
+	        }); */   	
 	    	return false;
 	    });
-	    
-	    $("#forgot").click(function(){
-	    	var count = $("#txt-count").val();
-	    	if(count==3){
-	    		alert("Sudah Mentok");
-	    	}else {
-	    		count++;
-	    		$("#txt-count").val(count);
-	    	}
-	    	
-	    });
 	</script>
-
-
+	
 </body>
 </html>

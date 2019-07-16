@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +35,6 @@ public class BaseMenuController {
 		model.addAttribute("menuList", this.menuRepo.findByMenuType("SIDEBAR", Sort.by("menuOrder").ascending()));
 		// biodata menu
 		model.addAttribute("biodataMenuList", this.menuRepo.findByMenuType("BIODATA", Sort.by("menuOrder").ascending()));
-		
 		
 		if (session.getAttribute("roleId") != null) {
 			Long roleId = Long.parseLong(session.getAttribute("roleId").toString());

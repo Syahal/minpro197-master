@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.batch197.model.XBiodataModel;
+import com.xsis.batch197.model.XKeteranganTambahanModel;
 import com.xsis.batch197.model.XPeReferensiModel;
 import com.xsis.batch197.repository.XBiodataRepo;
+import com.xsis.batch197.repository.XKeteranganTambahanRepo;
 import com.xsis.batch197.repository.XPeReferensiRepo;
 
 @Controller
 public class LainlainController extends BaseController {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(LainlainController.class);
 
 	@Autowired
@@ -32,13 +34,24 @@ public class LainlainController extends BaseController {
 	@Autowired
 	private XPeReferensiRepo refRepo;
 
+	@Autowired
+	private XKeteranganTambahanRepo ketRepo;
+
 	@GetMapping(value = "/pelamar/lain-lain/{bid}")
 	private ModelAndView index(@PathVariable("bid") Long biodataId) {
-		// view keluarga
+		// view referensi
 		ModelAndView view = new ModelAndView("lain-lain/index");
 		// get biodata Id
 		XBiodataModel biodata = this.bioRepo.findById(biodataId).orElse(null);
 		view.addObject("biodata", biodata);
+
+		// get referensi
+		List<XPeReferensiModel> listReferensi = this.refRepo.findActiveByBiodataId(biodataId);
+		view.addObject("listReferensi", listReferensi);
+
+		// get data keterangan tambahan
+		XKeteranganTambahanModel ketTambahan = this.ketRepo.findByBiodataId(biodataId);
+		view.addObject("ketTambahan", ketTambahan);
 
 		return view;
 	}
@@ -128,6 +141,22 @@ public class LainlainController extends BaseController {
 		// mengambil data dahulu dari database via repository
 		XPeReferensiModel referensi = this.refRepo.findById(rid).orElse(null);
 		view.addObject("referensi", referensi);
+
+		return view;
+	}
+
+	// Method Button Add
+	@GetMapping(value = "/lain-lain/detailkettambahan/{bid}") // bid ini sebagai variable dari biodataId
+	public ModelAndView detail(@PathVariable("bid") Long biodataId) {
+		// menampilkan view dari folder lain-lain file _formreferensi.html
+		ModelAndView view = new ModelAndView("lain-lain/_detailkettambahan");
+		// membuat object referensi yang akan dikirim ke view
+		// object "referensi" adalah new object dari XPereferensiModel
+		XKeteranganTambahanModel ketTambahan = new XKeteranganTambahanModel();
+		// set biodata id nya
+		ketTambahan.setBiodataId(biodataId);
+		// add object keahlian
+		view.addObject("ketTambahan", ketTambahan);
 
 		return view;
 	}

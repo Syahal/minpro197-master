@@ -79,6 +79,12 @@ public class KeahlianController extends BaseController {
 		// menampilkan view dari folder keahlian _create.html
 		ModelAndView view = new ModelAndView("keahlian/_create");
 
+		// mengambil data level skill yang sudah ada
+		List<XSkillLevelModel> listSkill = skillRepo.findAll();
+		// object dari listSKill akan dikirim ke view, agar pilihan SkillLevelId bisa
+		// terisi datanya
+		view.addObject("listSkill", listSkill);
+
 		if (result.hasErrors()) {
 			logger.info("Save Keahlian Error!");
 			// add object keahlian beserta errornya ke view

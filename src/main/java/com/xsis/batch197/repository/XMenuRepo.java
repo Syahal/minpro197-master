@@ -14,5 +14,7 @@ public interface XMenuRepo extends JpaRepository<XMenuModel, Long> {
 	public XMenuModel findByTitle(String title);
 	
 	public List<XMenuModel> findByMenuType(String type, Sort sort);
+	
+	public XMenuModel findByMenuParent(Long parentId);
 
 }

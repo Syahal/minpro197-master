@@ -101,6 +101,24 @@ public class KeluargaController extends BaseController {
 		// menampilkan view dari folder keahlian _form.html
 		ModelAndView view = new ModelAndView("keluarga/_form");
 
+		// mengambil data susunan keluarga yang sudah ada
+		List<XFamilyTreeTypeModel> listSusunan = familytreetypeRepo.findAll();
+		// object dari listSusunan akan dikirim ke view, agar pilihan familyTreeTyeId
+		// bisa terisi datanya
+		view.addObject("listSusunan", listSusunan);
+
+		// mengambil data hubungan keluarga yang sudah ada
+		List<XFamilyRelationModel> listHubungan = familyrelationRepo.findAll();
+		// object dari listHubungan akan dikirim ke view, agar pilihan familyRelationId
+		// bisa terisi datanya
+		view.addObject("listHubungan", listHubungan);
+
+		// mengambil data hubungan level pendidikan yang sudah ada
+		List<XEducationLevelModel> listPend = pendRepo.findAll();
+		// object dari listPend akan dikirim ke view, agar pilihan educationLevelId
+		// bisa terisi datanya
+		view.addObject("listPend", listPend);
+
 		if (result.hasErrors()) {
 			logger.info("Save Keluarga Error!");
 			// add object keluarga beserta errornya ke view

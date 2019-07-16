@@ -5,6 +5,9 @@
         <ul class="nav side-menu">
             <li th:each="item : ${menuList}">
             	<a th:href="@{~/{url}(url=${item.menuUrl})}"><i th:class="${item.menuIcon}"></i> <span th:text="${item.title}">Home</span></a>
+            	<!-- <ul class="nav child_menu">
+            		<li th:each="item : ${submenuSidebar}"></li>
+            	</ul>  -->
             </li>
         </ul>
     </div>

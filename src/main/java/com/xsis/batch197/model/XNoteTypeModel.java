@@ -42,6 +42,12 @@ public class XNoteTypeModel extends BaseModel {
 		this.description=desc;
 	}
 	
+	public XNoteTypeModel(String name, String desc, Long userId) {
+		super(userId);
+		this.name=name;
+		this.description=desc;
+	}
+	
 	public XNoteTypeModel(Long userId) {
 		super(userId);
 	}

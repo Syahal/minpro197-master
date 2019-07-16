@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsis.batch197.model.XBiodataModel;
+import com.xsis.batch197.model.XKeteranganTambahanModel;
 import com.xsis.batch197.model.XRiwayatPendidikanModel;
 import com.xsis.batch197.repository.XBiodataRepo;
+import com.xsis.batch197.repository.XKeteranganTambahanRepo;
 import com.xsis.batch197.repository.XPelamarPagingRepo;
 import com.xsis.batch197.repository.XRiwayatPendidikanRepo;
 
@@ -28,9 +30,12 @@ public class PelamarController {
 
 	@Autowired
 	private XPelamarPagingRepo repoPaging;
-	
+
 	@Autowired
 	private XRiwayatPendidikanRepo repoRiwpend;
+	
+	@Autowired
+	private XKeteranganTambahanRepo ketRepo;
 
 	@GetMapping(value = "/index")
 	public ModelAndView index() {

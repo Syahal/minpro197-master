@@ -1,7 +1,10 @@
 <tr th:each="item :${listKeluarga}">
 	<td th:text="${item.familyRelation.name}"></td>
 	<td th:text="${item.name}"></td>
-	<td th:text="${item.gender}"></td>
+	<td>
+		<span th:if="${item.gender == true}">Perempuan</span>
+		<span th:if="${item.gender == false}">Laki-laki</span>
+	</td>
 	<td th:text="${item.dob}"></td>
 	<td th:text="${item.educationLevel.name}"></td>
 	<td th:text="${item.job}"></td>

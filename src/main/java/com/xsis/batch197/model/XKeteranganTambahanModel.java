@@ -32,26 +32,26 @@ public class XKeteranganTambahanModel extends BaseModel {
 	@Column(name="expected_salary", nullable=true, length=20)
 	private String expectedSalary;
 	
-	@Column(name="is_negotiable", nullable=true, length=1)
-	private Integer isNegotiable;
+	@Column(name="is_negotiable", nullable=true)
+	private Boolean isNegotiable;
 	
-	@Column(name="start_working", nullable=true, length=10)
+	@Column(name="start_working", nullable=true, length=100)
 	private String startWorking;
 	
 	@Column(name="is_ready_to_outoftown", nullable=true)
-	private Integer isReadyOutoftown;
+	private Boolean isReadyOutoftown;
 	
 	@Column(name="is_apply_other_place", nullable=true)
-	private Integer isApplyOtherPlace;
+	private Boolean isApplyOtherPlace;
 	
-	@Column(name="apply_face", nullable=true, length=100)
-	private String applyFace;
+	@Column(name="apply_place", nullable=true, length=100)
+	private String applyPlace;
 	
 	@Column(name="selection_phase", nullable=true, length=100)
 	private String selectionPhase;
 	
-	@Column(name="is_every_badly_sick", nullable=true, length=1)
-	private Integer isEveryBadlySick;
+	@Column(name="is_every_badly_sick", nullable=true)
+	private Boolean isEveryBadlySick;
 	
 	@Column(name="disease_name", nullable=true, length=100)
 	private String diseaseName;
@@ -59,8 +59,8 @@ public class XKeteranganTambahanModel extends BaseModel {
 	@Column(name="disease_time", nullable=true, length=100)
 	private String diseaseTime;
 	
-	@Column(name="is_every_psychotest", nullable=true, length=1)
-	private Integer isEveryPsychotest;
+	@Column(name="is_every_psychotest", nullable=true)
+	private Boolean isEveryPsychotest;
 	
 	@Column(name="psychotest_needs", nullable=true, length=100)
 	private String psychotestNeeds;
@@ -127,11 +127,11 @@ public class XKeteranganTambahanModel extends BaseModel {
 		this.expectedSalary = expectedSalary;
 	}
 
-	public Integer getIsNegotiable() {
+	public Boolean getIsNegotiable() {
 		return isNegotiable;
 	}
 
-	public void setIsNegotiable(Integer isNegotiable) {
+	public void setIsNegotiable(Boolean isNegotiable) {
 		this.isNegotiable = isNegotiable;
 	}
 
@@ -143,28 +143,28 @@ public class XKeteranganTambahanModel extends BaseModel {
 		this.startWorking = startWorking;
 	}
 
-	public Integer getIsReadyOutoftown() {
+	public Boolean getIsReadyOutoftown() {
 		return isReadyOutoftown;
 	}
 
-	public void setIsReadyOutoftown(Integer isReadyOutoftown) {
+	public void setIsReadyOutoftown(Boolean isReadyOutoftown) {
 		this.isReadyOutoftown = isReadyOutoftown;
 	}
 
-	public Integer getIsApplyOtherPlace() {
+	public Boolean getIsApplyOtherPlace() {
 		return isApplyOtherPlace;
 	}
 
-	public void setIsApplyOtherPlace(Integer isApplyOtherPlace) {
+	public void setIsApplyOtherPlace(Boolean isApplyOtherPlace) {
 		this.isApplyOtherPlace = isApplyOtherPlace;
 	}
 
-	public String getApplyFace() {
-		return applyFace;
+	public String getApplyPlace() {
+		return applyPlace;
 	}
 
-	public void setApplyFace(String applyFace) {
-		this.applyFace = applyFace;
+	public void setApplyPlace(String applyPlace) {
+		this.applyPlace = applyPlace;
 	}
 
 	public String getSelectionPhase() {
@@ -175,11 +175,11 @@ public class XKeteranganTambahanModel extends BaseModel {
 		this.selectionPhase = selectionPhase;
 	}
 
-	public Integer getIsEveryBadlySick() {
+	public Boolean getIsEveryBadlySick() {
 		return isEveryBadlySick;
 	}
 
-	public void setIsEveryBadlySick(Integer isEveryBadlySick) {
+	public void setIsEveryBadlySick(Boolean isEveryBadlySick) {
 		this.isEveryBadlySick = isEveryBadlySick;
 	}
 
@@ -199,11 +199,11 @@ public class XKeteranganTambahanModel extends BaseModel {
 		this.diseaseTime = diseaseTime;
 	}
 
-	public Integer getIsEveryPsychotest() {
+	public Boolean getIsEveryPsychotest() {
 		return isEveryPsychotest;
 	}
 
-	public void setIsEveryPsychotest(Integer isEveryPsychotest) {
+	public void setIsEveryPsychotest(Boolean isEveryPsychotest) {
 		this.isEveryPsychotest = isEveryPsychotest;
 	}
 

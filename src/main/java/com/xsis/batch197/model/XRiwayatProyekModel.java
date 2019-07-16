@@ -50,6 +50,9 @@ public class XRiwayatProyekModel extends BaseModel {
 	@Column(name="description", length=1000, nullable=true)
 	private String description;
 	
+	@Column(name = "biodata_id", nullable = false, length = 11)
+	private Long biodataId;
+	
 	@ManyToOne
 	@JoinColumn(name="biodata_id", foreignKey=@ForeignKey(name="fk_ripro_bio_id"), insertable=false, updatable=false)
 	private XBiodataModel biodata;
@@ -148,6 +151,14 @@ public class XRiwayatProyekModel extends BaseModel {
 
 	public void setBiodata(XBiodataModel biodata) {
 		this.biodata = biodata;
+	}
+
+	public Long getBiodataId() {
+		return biodataId;
+	}
+
+	public void setBiodataId(Long biodataId) {
+		this.biodataId = biodataId;
 	}
 	
 }
